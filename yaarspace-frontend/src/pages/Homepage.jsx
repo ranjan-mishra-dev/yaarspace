@@ -7,7 +7,7 @@ import { FeedbackFooter } from '../components/Feedback&Footer.jsx';
 export default function Homepage() {
   return (
     <main className="min-h-screen bg-[#FDFCF0]">
-      <Navbar />
+      {/* <Navbar /> */}
       <Hero />
       <Features />
       <Testimonials />
