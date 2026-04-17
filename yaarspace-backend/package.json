@@ -1,5 +1,6 @@
 {
   "name": "yaarspace-backend",
+  "type": "module",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -10,6 +11,7 @@
   "description": "",
   "dependencies": {
     "@supabase/supabase-js": "^2.103.2",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1"
   }
