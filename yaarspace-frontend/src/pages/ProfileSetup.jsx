@@ -16,6 +16,15 @@ const ProfileSetup = () => {
   const [previewUrl, setPreviewUrl] = useState(
     user?.user_metadata?.avatar_url || "",
   );
+  const [file, setFile] = useState(null); // 1. Create a state for the file
+  const handleFileChange = (event) => {
+    // Check if files exist before setting state
+    if (event.target.files && event.target.files.length > 0) {
+      setPreviewUrl(URL.createObjectURL(event.target.files[0]));
+      setFile(event.target.files[0]);
+    }
+  };
+  // console.log(user.id);
 
   // State for Form Fields
   const [formData, setFormData] = useState({
@@ -55,9 +64,38 @@ const ProfileSetup = () => {
     setList((prev) => prev.filter((tag) => tag !== tagToRemove));
   };
 
+  const uploadAvatar = async () => {
+    if (!file) {
+      alert("Please select a file first!");
+      return;
+    }
+    // 1. Get ONLY the extension (e.g., "png")
+    const fileExt = file.name.split(".").pop();
+
+    // 2. This creates: "USER_ID/avatar.png"
+    const filePath = `${user.id}/avatar.${fileExt}`;
+
+    const { error } = await supabase.storage
+      .from("avatars")
+      .upload(filePath, file, {
+        upsert: true,
+      });
+
+    if (error) {
+      console.error(error);
+      return null;
+    }
+
+    const { data } = supabase.storage.from("avatars").getPublicUrl(filePath);
+    console.log("image url", data.publicUrl);
+    return data.publicUrl;
+  };
+
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    const avatarUrl = await uploadAvatar(file, user);
 
     const { error } = await supabase.from("profiles").upsert({
       id: user.id,
@@ -66,15 +104,8 @@ const ProfileSetup = () => {
       tech_stack: techStack,
       preferred_roles: preferredRoles,
       looking_for: lookingFor,
-      avatar_url: previewUrl,
+      avatar_url: avatarUrl,
     });
-
-    console.log(user.id);
-    console.log(formData);
-    console.log(techStack);
-    console.log(preferredRoles);
-    console.log(lookingFor);
-    console.log(previewUrl);
 
     if (error) toast.error(error.message);
     else toast.success("Profile saved successfully!");
@@ -130,9 +161,7 @@ const ProfileSetup = () => {
                     <input
                       type="file"
                       className="hidden"
-                      onChange={(e) =>
-                        setPreviewUrl(URL.createObjectURL(e.target.files[0]))
-                      }
+                      onChange={handleFileChange}
                     />
                   </label>
                 </div>
@@ -289,7 +318,7 @@ const ProfileSetup = () => {
                     size={18}
                   />
                   <Input
-                    className='pl-10'
+                    className="pl-10"
                     placeholder="https://my-portfolio.com"
                     value={formData.portfolio_url}
                     onChange={(e) =>
