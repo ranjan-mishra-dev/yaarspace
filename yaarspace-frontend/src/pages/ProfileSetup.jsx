@@ -11,7 +11,7 @@ import { useAuth } from "@/context/AuthProvider";
 import { supabase } from "@/services/supabaseClient";
 
 const ProfileSetup = () => {
-  const { user } = useAuth(); // user name from your AuthContext
+  const { user, setUserProfilePicture } = useAuth(); // user name from your AuthContext
   const [loading, setLoading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(
     user?.user_metadata?.avatar_url || "",
@@ -66,8 +66,8 @@ const ProfileSetup = () => {
 
   const uploadAvatar = async () => {
     if (!file) {
-      alert("Please select a file first!");
-      return;
+      // alert("Please select a file first!");
+      return previewUrl;
     }
     // 1. Get ONLY the extension (e.g., "png")
     const fileExt = file.name.split(".").pop();
@@ -107,10 +107,63 @@ const ProfileSetup = () => {
       avatar_url: avatarUrl,
     });
 
+    setUserProfilePicture(avatarUrl);
+
     if (error) toast.error(error.message);
     else toast.success("Profile saved successfully!");
     setLoading(false);
   };
+
+  const fetchProfile = async (user) => {
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    return data;
+  };
+
+  useEffect(() => {
+    if (!user) return;
+
+    const loadProfile = async () => {
+      console.log("user: ", user);
+      const data = await fetchProfile(user);
+      console.log("data: ", data);
+
+      if (data) {
+        setFormData({
+          full_name: data.full_name || "",
+          college_name: data.college_name || "",
+          year_of_study: data.year_of_study || "",
+          branch: data.branch || "",
+          location: data.location || "",
+          linkedin_url: data.linkedin_url || "",
+          portfolio_url: data.portfolio_url || "",
+          github_username: data.github_username || "",
+          coding_handle: data.coding_handle || "",
+          about_me: data.about_me || "",
+          availability: data.availability ?? true,
+        });
+
+          setInterests(data.interests || []);
+          setTechStack(data.tech_stack || []);
+          setPreferredRoles(data.preferred_roles || []);
+          setLookingFor(data.looking_for || []);
+          setPreviewUrl(data.avatar_url || "");
+          setUserProfilePicture(data.avatar_url || "https://n2r5uux6k5.ucarecd.net/436cd9c5-c41d-4555-b415-3fb8b7daefff/-/preview/512x512/")
+
+      }
+    };
+
+    loadProfile();
+  }, [user]);
 
   return (
     <div className="min-h-screen bg-[#FDFCF0] py-12 px-6 font-sans">
