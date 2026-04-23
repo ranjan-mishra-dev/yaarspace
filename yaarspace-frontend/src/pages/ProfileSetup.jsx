@@ -65,36 +65,45 @@ const ProfileSetup = () => {
   };
 
   const uploadAvatar = async () => {
+    console.log("avatar1")
     if (!file) {
       // alert("Please select a file first!");
       return previewUrl;
     }
+    console.log("avatar2")
     // 1. Get ONLY the extension (e.g., "png")
     const fileExt = file.name.split(".").pop();
-
+    
     // 2. This creates: "USER_ID/avatar.png"
     const filePath = `${user.id}/avatar.${fileExt}`;
-
+    
+    console.log("avatar3")
     const { error } = await supabase.storage
-      .from("avatars")
-      .upload(filePath, file, {
-        upsert: true,
-      });
-
+    .from("avatars")
+    .upload(filePath, file, {
+      upsert: true,
+    });
+    
+    console.log("avatar4")
     if (error) {
       console.error(error);
       return null;
     }
-
+    console.log("avatar5")
+    
     const { data } = supabase.storage.from("avatars").getPublicUrl(filePath);
     console.log("image url", data.publicUrl);
+    console.log("avatar6")
     return data.publicUrl;
   };
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+    console.log("hi profile")
+    console.log("formdata", formData);
+    console.log("formdata1", interests);
+    
     const avatarUrl = await uploadAvatar(file, user);
 
     const { error } = await supabase.from("profiles").upsert({

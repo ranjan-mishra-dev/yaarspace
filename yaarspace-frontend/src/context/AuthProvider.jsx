@@ -8,7 +8,7 @@ export const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [userProfilePicture, setUserProfilePicture] = useState("");
+  const[userProfilePicture, setUserProfilePicture] = useState("");
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, handleLogout, setUserProfilePicture, userProfilePicture }}>
+    <AuthContext.Provider value={{ user, loading, handleLogout, setUserProfilePicture }}>
       {children}
     </AuthContext.Provider>
   );

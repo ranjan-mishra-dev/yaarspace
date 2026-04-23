@@ -1,12 +1,13 @@
 import React from 'react'
 import { supabase } from '@/services/supabaseClient'
-
+import { handleGoogleLogin } from '@/services/handleGoogleLogin'
 const Login = () => {
 
   const handleGoogleLogin = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
+        redirectTo: "http://localhost:5173",
         queryParams: {
           access_type: 'offline',
           prompt: 'consent',
