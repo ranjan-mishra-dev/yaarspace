@@ -1,7 +1,13 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
+import { useAuth } from '@/context/AuthProvider';
+import { getGreeting } from '@/utils/getGreeting';
+
 
 const Hero = () => {
+  const {user} = useAuth();
+    const message = getGreeting(user?.user_metadata?.name.split(" ")[0])
+
   return (
     <section className="bg-[#FDFCF0] py-20 px-6 overflow-hidden">
       <div className="container mx-auto grid md:grid-cols-2 gap-12 items-center">
@@ -16,9 +22,15 @@ const Hero = () => {
           <p className="text-[#475569] text-xl font-light tracking-[0.3em] uppercas mx-10">
             The fastest way to find, connect, and collaborate with top-tier student developers for your next hackathon.
           </p>
-          <Button className="mx-10 h-14 px-10 text-lg font-bold bg-[#064E3B] text-[#FDFCF0] hover:scale-105 transition-transform uppercase tracking-widest rounded-none">
-            Get Started for Free
+          {!user ? 
+          <Button className="mx-10 h-14 px-10 text-lg font-bold bg-[#064E3B] text-[#FDFCF0] hover:scale-105 transition-transform uppercase tracking-widest rounded-b-full">
+            Create Your Profile
           </Button>
+          :
+          <Button className="mx-10 h-14 px-10 text-sm font-bold bg-[#064E3B] text-[#FDFCF0] hover:scale-105 transition-transform uppercase tracking-widest rounded-b-full">
+            {message}
+          </Button>
+          }
         </div>
 
         <div className="relative group mb-10">

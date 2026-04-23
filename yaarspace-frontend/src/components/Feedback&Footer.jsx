@@ -21,7 +21,7 @@ const FeedbackFooter = () => (
       <div className="grid md:grid-cols-4 gap-12 pb-12 border-b border-gray-200">
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <img src="https://n2r5uux6k5.ucarecd.net/ac32fa8a-1507-4149-853f-4d81afc28459/-/preview/512x512/" className="h-8 w-8" alt="" />
+            <img src="https://n2r5uux6k5.ucarecd.net/436cd9c5-c41d-4555-b415-3fb8b7daefff/-/preview/512x512/" className="h-8 w-8" alt="" />
             <span className="text-xl font-bold text-[#064E3B]">YaarSpace</span>
           </div>
           <p className="text-sm text-[#475569]">Empowering students to build together, one project at a time.</p>
@@ -44,7 +44,7 @@ const FeedbackFooter = () => (
         </div>
       </div>
       <p className="py-8 text-center text-xs text-[#475569] font-medium">
-        © 2026 YaarSpace. All rights reserved. Designed for SDE Excellence.
+        © 2026 YaarSpace. All rights reserved. Designed&Develop by ranjan.
       </p>
     </div>
   </footer>
