@@ -27,8 +27,12 @@ import {
   DialogTitle,
   DialogClose,
 } from "@/components/ui/dialog";
+import axios from "axios";
+
+import { useAuth } from "@/context/AuthProvider";
 
 const SearchPage = () => {
+  const { session } = useAuth();
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [results, setResults] = useState([]);
@@ -63,14 +67,18 @@ const SearchPage = () => {
     setQuery(searchTerm);
     setSuggestions([]);
     try {
-      console.log("search query", searchTerm);
       // Replace with your actual Node.js backend endpoint
-      const response = await fetch(
-        `http://localhost:5000/api/search?query=${searchTerm}`,
-      );
-      const data = await response.json();
-      console.log("data from search page", data);
-      setResults(data.slice(0, 20)); // Limit to 20 as per your requirement
+
+      const response = await axios.get("http://localhost:5000/api/search", {
+        params: { q: searchTerm },
+        headers: {
+          Authorization: `Bearer ${session?.access_token}`,
+        },
+      });
+
+      const data = response.data;
+      setResults(data.users.slice(0, 20)); // Limit to 20 as per your requirement
+      console.log(results);
     } catch (error) {
       console.error("Search failed", error);
     } finally {
@@ -122,12 +130,13 @@ const SearchPage = () => {
             >
               <CardContent className="p-5 flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <Avatar className="h-16 w-16 border">
-                    <AvatarImage src={user.profile_pic} />
-                    <AvatarFallback>{user.name[0]}</AvatarFallback>
+                  <Avatar className="h-20 w-20 border">
+                    <AvatarImage src={user?.avatar_url} />
+                    <AvatarFallback>{user?.full_name}</AvatarFallback>
+                    {console.log(user.full_name)}
                   </Avatar>
                   <div>
-                    <h3 className="font-bold text-lg">{user.name}</h3>
+                    <h3 className="font-bold text-lg">{user.full_name}</h3>
                     <p className="text-sm text-muted-foreground line-clamp-1">
                       {user.about_me}
                     </p>
@@ -162,19 +171,30 @@ const SearchPage = () => {
       {/* Expanded User Detail Modal */}
       <Dialog open={!!selectedUser} onOpenChange={() => setSelectedUser(null)}>
         {selectedUser && (
-          <DialogContent className="sm:max-w-[500px]">
+          <DialogContent className="sm:max-w-[500px] max-h-[80vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-2xl">
                 {selectedUser.name}
               </DialogTitle>
             </DialogHeader>
 
+            
+            <div className="flex justify-center mt-4">
+              <Avatar className="h-40 w-40 border">
+                <AvatarImage src={selectedUser?.avatar_url} />
+              </Avatar>
+            </div>
+
             <div className="space-y-6 py-4">
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div className="flex items-center gap-2">
                   <GraduationCap className="h-4 w-4 text-blue-500" />
                   <span>
-                    {selectedUser.college_name} ({selectedUser.year} Year)
+                    {selectedUser.college_name} (
+                    {selectedUser.year_of_study?.includes("Year")
+                      ? selectedUser.year_of_study
+                      : `${selectedUser.year_of_study} Year`}
+                    )
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -184,9 +204,23 @@ const SearchPage = () => {
               </div>
 
               <div>
-                <h4 className="font-semibold mb-2">Looking For:</h4>
+                <h4 className="font-semibold mb-2">Looking for:</h4>
                 <p className="text-sm bg-orange-50 p-3 rounded-md border border-orange-100 text-orange-800">
-                  {selectedUser.looking_for}
+                  {selectedUser.looking_for?.join(" - ")}
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-semibold mb-2">Have Interest in:</h4>
+                <p className="text-sm bg-orange-50 p-3 rounded-md border border-orange-100 text-orange-800">
+                  {selectedUser.interests?.join(" - ")}
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-semibold mb-2">Preferred roles:</h4>
+                <p className="text-sm bg-orange-50 p-3 rounded-md border border-orange-100 text-orange-800">
+                  {selectedUser.preferred_roles?.join(" - ")}
                 </p>
               </div>
 
@@ -201,7 +235,7 @@ const SearchPage = () => {
                     className="flex items-center gap-2"
                     asChild
                   >
-                    <a href={selectedUser.github} target="_blank">
+                    <a href={selectedUser.github_username} target="_blank">
                       <Terminal className="h-4 w-4" /> Code Profile
                     </a>
                   </Button>
@@ -211,8 +245,8 @@ const SearchPage = () => {
                     className="flex items-center gap-2"
                     asChild
                   >
-                    <a href={selectedUser.linkedin} target="_blank">
-                      <Briefcase className="h-4 w-4" /> Professional
+                    <a href={selectedUser.linkedin_url} target="_blank">
+                      <Briefcase className="h-4 w-4" /> LinkedIn
                     </a>
                   </Button>
                   <Button
@@ -221,13 +255,25 @@ const SearchPage = () => {
                     className="flex items-center gap-2"
                     asChild
                   >
-                    <a href={selectedUser.coding_profile} target="_blank">
+                    <a href={selectedUser.coding_handle} target="_blank">
                       <ExternalLink className="h-4 w-4" /> Portfolio
+                    </a>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center gap-2"
+                    asChild
+                  >
+                    <a href={selectedUser.github_username} target="_blank">
+                      <ExternalLink className="h-4 w-4" /> GitHub
                     </a>
                   </Button>
                 </div>
               </div>
             </div>
+
+            <p>Loation: {selectedUser.location}</p>
 
             <div className="flex justify-end pt-4">
               <DialogClose asChild>
