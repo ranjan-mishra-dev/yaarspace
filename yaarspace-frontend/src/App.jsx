@@ -5,6 +5,7 @@ import Login from './pages/Login.jsx'
 import Profile from './pages/ProfileSetup.jsx'
 import Navbar from './components/Navbar.jsx'
 import { Toaster } from "sonner";
+import SearchPage from './pages/SearchPage.jsx'
 
 
 
@@ -17,6 +18,7 @@ const App = () => {
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/profile' element={<Profile />} />
+        <Route path='/search-people' element={<SearchPage />} />
       </Routes>
     </div>
   )

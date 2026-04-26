@@ -10,21 +10,29 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const[userProfilePicture, setUserProfilePicture] = useState("");
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
+useEffect(() => {
+  supabase.auth.getSession().then(({ data: { session } }) => {
+    const currentUser = session?.user ?? null;
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
+    setUser(currentUser);
+    setUserProfilePicture(currentUser?.user_metadata?.avatar_url);
 
-    return () => subscription.unsubscribe();
-  }, []);
+    setLoading(false);
+  });
+
+  const {
+    data: { subscription },
+  } = supabase.auth.onAuthStateChange((_event, session) => {
+    const currentUser = session?.user ?? null;
+
+    setUser(currentUser);
+    setUserProfilePicture(currentUser?.user_metadata?.avatar_url);
+
+    setLoading(false);
+  });
+
+  return () => subscription.unsubscribe();
+}, []);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -32,7 +40,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, handleLogout, setUserProfilePicture }}>
+    <AuthContext.Provider value={{ user, loading, handleLogout, userProfilePicture, setUserProfilePicture }}>
       {children}
     </AuthContext.Provider>
   );

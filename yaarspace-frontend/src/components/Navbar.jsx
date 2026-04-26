@@ -2,12 +2,28 @@ import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Bell, User, LogOut, ChevronDown } from "lucide-react";
 import { useAuth } from "../context/AuthProvider.jsx";
+import { Loader2 } from "lucide-react";
 
 import { handleGoogleLogin } from "@/services/handleGoogleLogin.js";
 
 const Navbar = () => {
-  const { user, handleLogout } = useAuth();
+  const { user, handleLogout, loading, userProfilePicture } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+
+
+    if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-[#FDFCF0]">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="h-8 w-8 animate-spin text-black" />
+          <p className="text-sm text-gray-600">
+            Loading your picture...
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <nav className="bg-[#FDFCF0] border-b px-6 py-4 flex justify-between items-center relative">
@@ -26,6 +42,7 @@ const Navbar = () => {
         <div className="hidden md:flex gap-6 text-[#475569] font-medium">
           <Link to="/features">Features</Link>
           <Link to="/how-it-works">How it works</Link>
+          {user ? <Link to="/search-people">Search</Link> : " "}
         </div>
 
         {/* AUTHENTICATION LOGIC */}
@@ -45,7 +62,7 @@ const Navbar = () => {
             {/* Profile Circle */}
             <div className="flex items-center gap-2 cursor-pointer p-1 rounded-full hover:bg-gray-100 transition-all">
               <img
-                src={user.user_metadata?.avatar_url || "/default-avatar.png"}
+                src={userProfilePicture || "/default-avatar.png"}
                 alt="Profile"
                 className="w-10 h-10 rounded-full border-2 border-[#064E3B] object-cover"
               />
