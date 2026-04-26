@@ -16,8 +16,8 @@ export const searchPeople = async (req, res) => {
       .toLowerCase()
       .split(",")
       .map(skill => skill.trim());
-    // 2. Get current user (from auth middleware ideally)
-    const currentUserId = req.user.id;
+
+      const currentUserId = req.user.id;
 
     const { data: currentUser } = await supabaseAdmin
       .from("profiles")
@@ -85,13 +85,14 @@ export const searchPeople = async (req, res) => {
       .filter(user => user.score > 0)
       .sort((a, b) => b.score - a.score);
 
-
-    // 6. Pagination
-    const limit = 20;
-    const start = (page - 1) * limit;
-    const end = page * limit;
-
-    const result = rankedUsers.slice(start, end);
+      
+      
+      // 6. Pagination
+      const limit = 20;
+      const start = (page - 1) * limit;
+      const end = page * limit;
+      
+      const result = rankedUsers.slice(start, end);
 
     // 7. Send response
     res.json({
