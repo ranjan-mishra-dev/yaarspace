@@ -206,7 +206,7 @@ export const sendMessage = async (req, res) => {
     io.to(conversationId).emit("conversation_updated", {
       conversationId,
       last_message: message.trim(),
-      last_message_at: lastMessageAt,
+      last_message_at: new Date().toISOString(),
     });
 
     return res.status(201).json({
