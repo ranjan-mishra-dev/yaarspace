@@ -1,25 +1,57 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Bell, User, LogOut, ChevronDown } from "lucide-react";
 import { useAuth } from "../context/AuthProvider.jsx";
 import { Loader2 } from "lucide-react";
+import { supabase } from "@/services/supabaseClient.js";
 
+import NavbarNotifications from "./NavbarNotifications.jsx";
+import Chat from "@/pages/Chat.jsx";
 import { handleGoogleLogin } from "@/services/handleGoogleLogin.js";
 
 const Navbar = () => {
-  const { user, handleLogout, loading, userProfilePicture } = useAuth();
+  const { user, handleLogout, loading, userProfilePicture, setUserProfilePicture } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+    const fetchProfile = async (user) => {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+  
+      if (error) {
+        console.error(error);
+        return;
+      }
+  
+      return data;
+    };
+
+      useEffect(() => {
+        if (!user) return;
+    
+        const loadProfile = async () => {
+          const data = await fetchProfile(user);
+          console.log("user from navbar: ", user);
+    
+          if (data) {
+            setUserProfilePicture(data?.avatar_url || "https://n2r5uux6k5.ucarecd.net/436cd9c5-c41d-4555-b415-3fb8b7daefff/-/preview/512x512/")
+          }
+        };
+    
+        loadProfile();
+      }, [user]);
 
 
-    if (loading) {
+
+
+  if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#FDFCF0]">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="h-8 w-8 animate-spin text-black" />
-          <p className="text-sm text-gray-600">
-            Loading your picture...
-          </p>
+          <p className="text-sm text-gray-600">Loading your picture...</p>
         </div>
       </div>
     );
@@ -43,6 +75,9 @@ const Navbar = () => {
           <Link to="/features">Features</Link>
           <Link to="/how-it-works">How it works</Link>
           {user ? <Link to="/search-people">Search</Link> : " "}
+          {user ? <Link to="/requests">Connections</Link> : " "}
+          {user ? <NavbarNotifications /> : " "}
+          {/* {user ? <Chat /> : " "} */}
         </div>
 
         {/* AUTHENTICATION LOGIC */}
@@ -72,6 +107,7 @@ const Navbar = () => {
               />
             </div>
 
+
             {/* Dropdown Menu */}
             {isDropdownOpen && (
               <div className="absolute right-0 top-full w-48 bg-white border border-gray-100 shadow-xl rounded-xl py-2 z-[100] animate-in fade-in slide-in-from-top-2 duration-200">
@@ -82,12 +118,6 @@ const Navbar = () => {
                   </p>
                 </div>
 
-                <Link
-                  to="/notifications"
-                  className="flex items-center gap-3 px-4 py-2 text-sm text-[#475569] hover:bg-[#FDFCF0] hover:text-[#064E3B]"
-                >
-                  <Bell size={16} /> Notifications
-                </Link>
 
                 <Link
                   to="/profile"
