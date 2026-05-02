@@ -1,57 +1,29 @@
-import React from 'react';
+import React from "react";
 import { Star } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import StarRating from './StarRating';
-
+import StarRating from "./StarRating";
+import { items } from "../data/testimonials.js";
+import { MessageCircleHeart } from "lucide-react";
 
 const TestimonialSection = () => {
-  const items = [
-  {
-    "name": "Arjun Mehta",
-    "rating": 5,
-    "role": "Frontend Engineer",
-    "text": "Video call feature made it so easy to vibe-check my teammates before the hackathon started. Highly recommended!",
-    "profile_picture": "https://images.pexels.com/photos/7972568/pexels-photo-7972568.jpeg"
-  },
-  {
-    "name": "Priya Sharma",
-    "rating": 5,
-    "role": "UI/UX Designer",
-    "text": "Found a group that actually values design. We formed our team in minutes and won 'Best Design' at our last event!",
-    "profile_picture": "https://images.pexels.com/photos/16504592/pexels-photo-16504592.jpeg"
-  },
-  {
-    "name": "Venu Thalapati",
-    "rating": 5,
-    "role": "Full Stack Dev",
-    "text": "Found my MERN team here! The chat interface is seamless for discussing project architecture.",
-    "profile_picture": "https://images.pexels.com/photos/33887551/pexels-photo-33887551.jpeg"
-  },
-  {
-    "name": "Aman Verma",
-    "rating": 4.5,
-    "role": "Backend Developer",
-    "text": "Great platform to find people who are actually serious about shipping code. The tech-stack filtering is a lifesaver.",
-    "profile_picture": "https://images.pexels.com/photos/15237424/pexels-photo-15237424.jpeg"
-  },
-  {
-    "name": "Sneha Kapoor",
-    "rating": 4,
-    "role": "AI/ML Enthusiast",
-    "text": "Finally a place where I can find developers to help turn my Python scripts into a full-fledged SaaS product.",
-    "profile_picture": "https://images.pexels.com/photos/8147480/pexels-photo-8147480.jpeg"
-  },
-  {
-    "name": "Vikram Singh",
-    "rating": 5,
-    "role": "Mobile Dev",
-    "text": "The team formation tool is intuitive. Met two React Native devs here and we've been building together ever since.",
-    "profile_picture": "https://images.pexels.com/photos/11114960/pexels-photo-11114960.jpeg"
-  }
-];
-
   return (
     <div className="overflow-hidden w-full py-10 bg-[#FDFCF0]">
+      
+
+      <div className="flex flex-col items-center justify-center text-center mb-10 px-4">
+        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-green-100 text-green-700">
+          <MessageCircleHeart className="h-7 w-7" />
+        </div>
+
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800">
+          Feedback from our <span className="text-green-600">coders</span>
+        </h1>
+
+        <p className="mt-3 max-w-xl text-sm sm:text-base text-gray-500">
+          Real stories from developers who found their perfect hackathon
+          teammates.
+        </p>
+      </div>
       <div className="flex animate-scroll gap-8 px-4">
         {[...items, ...items].map((t, i) => (
           <div
@@ -66,16 +38,23 @@ const TestimonialSection = () => {
             </div>
 
             <div className="flex items-center gap-4">
-              <Avatar className="w-12 h-12 border-2 border-[#064E3B]/10">
+              <Avatar className="w-24 h-24 border-2 border-[#064E3B]/10">
                 <AvatarImage src={t.profile_picture} alt={t.name} />
                 <AvatarFallback className="bg-[#064E3B]/10 text-[#064E3B] font-bold">
-                  {t.name.split(" ").map(n => n[0]).join("")}
+                  {t.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")}
                 </AvatarFallback>
               </Avatar>
-              
+
               <div className="flex flex-col">
-                <p className="font-bold text-[#064E3B] leading-none mb-1">{t.name}</p>
-                <p className="text-xs text-[#475569] font-medium uppercase tracking-wider">{t.role}</p>
+                <p className="font-bold text-[#064E3B] leading-none mb-1">
+                  {t.name}
+                </p>
+                <p className="text-xs text-[#475569] font-medium uppercase tracking-wider">
+                  {t.role}
+                </p>
               </div>
             </div>
           </div>
