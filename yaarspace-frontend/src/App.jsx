@@ -6,8 +6,8 @@ import Profile from './pages/ProfileSetup.jsx'
 import Navbar from './components/Navbar.jsx'
 import { Toaster } from "sonner";
 import SearchPage from './pages/SearchPage.jsx'
-
-
+import Requests from './pages/Requests.jsx'
+import Chat from './pages/Chat.jsx'
 
 const App = () => {
   return (
@@ -19,6 +19,8 @@ const App = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/search-people' element={<SearchPage />} />
+        <Route path="/requests" element={<Requests />} />
+        <Route path="/chat" element={<Chat />} />
       </Routes>
     </div>
   )
