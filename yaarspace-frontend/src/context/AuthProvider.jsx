@@ -8,22 +8,24 @@ export const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [session, setSession] = useState(null);
   const[userProfilePicture, setUserProfilePicture] = useState("");
 
 useEffect(() => {
   supabase.auth.getSession().then(({ data: { session } }) => {
     const currentUser = session?.user ?? null;
-
+    setSession(session);
     setUser(currentUser);
     setUserProfilePicture(currentUser?.user_metadata?.avatar_url);
-
+    
     setLoading(false);
   });
-
+  
   const {
     data: { subscription },
   } = supabase.auth.onAuthStateChange((_event, session) => {
     const currentUser = session?.user ?? null;
+    setSession(session);
 
     setUser(currentUser);
     setUserProfilePicture(currentUser?.user_metadata?.avatar_url);
@@ -40,7 +42,7 @@ useEffect(() => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, handleLogout, userProfilePicture, setUserProfilePicture }}>
+    <AuthContext.Provider value={{session, user, loading, handleLogout, userProfilePicture, setUserProfilePicture }}>
       {children}
     </AuthContext.Provider>
   );
