@@ -289,7 +289,7 @@ const ProfileSetup = () => {
 
               <div className="space-y-4">
                 <Label className="uppercase text-xs font-black tracking-widest">
-                  Coding Handle (e.g. LeetCode)
+                  Coding Url (e.g. LeetCode)
                 </Label>
                 <div className="relative">
                   <LinkIcon
@@ -310,7 +310,7 @@ const ProfileSetup = () => {
                 </div>
 
                 <Label className="uppercase text-xs font-black tracking-widest">
-                  Linkedin Profile
+                  Linkedin Url
                 </Label>
                 <div className="relative">
                   <LinkIcon
@@ -331,7 +331,7 @@ const ProfileSetup = () => {
                 </div>
 
                 <Label className="uppercase text-xs font-black tracking-widest">
-                  Github
+                  Github Url
                 </Label>
                 <div className="relative">
                   <LinkIcon
@@ -352,7 +352,7 @@ const ProfileSetup = () => {
                 </div>
 
                 <Label className="uppercase text-xs font-black tracking-widest">
-                  Portfolio URL
+                  Portfolio Url
                 </Label>
                 <div className="relative">
                   <LinkIcon
@@ -372,13 +372,6 @@ const ProfileSetup = () => {
                   />
                 </div>
 
-                {/* <Label className="uppercase text-xs font-black tracking-widest">GitHub Username</Label>
-                <div className="relative">
-                  {/* <Github className="absolute left-3 top-3 text-[#475569]" size={18} /> */}
-                {/* <Input className="pl-10" placeholder="username" value={formData.github_username} onChange={e => setFormData({...formData, github_username: e.target.value})} /> */}
-                {/* </div>  */}
-
-                {/* <Label className="uppercase text-xs font-black tracking-widest">Portfolio URL</Label> */}
               </div>
             </div>
           </div>

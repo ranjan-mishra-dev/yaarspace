@@ -27,10 +27,14 @@ import {
   DialogTitle,
   DialogClose,
 } from "@/components/ui/dialog";
+
 import axios from "axios";
 
-import { useAuth } from "@/context/AuthProvider";
+import { toast } from "sonner";
+import { sendConnectionRequestApi } from "@/api/connectionApi";
 
+import { useAuth } from "@/context/AuthProvider";
+//added axios and passing token instead of user.id to backend and then populating the data
 const SearchPage = () => {
   const { session } = useAuth();
   const [query, setQuery] = useState("");
@@ -154,13 +158,23 @@ const SearchPage = () => {
                   </div>
                 </div>
                 <Button
-                  onClick={(e) => {
-                    e.stopPropagation(); // Don't trigger the "View More" modal
-                    console.log("Connect with", user.id);
+                  onClick={async (e) => {
+                    e.stopPropagation();
+
+                    try {
+                      await sendConnectionRequestApi(user.id);
+                      toast.success("Connection request sent");
+                    } catch (error) {
+                      toast.error(
+                        error.response?.data?.message ||
+                          "Failed to send request",
+                      );
+                    }
                   }}
-                  className="bg-blue-600 hover:bg-blue-700"
+                  className="bg-[#064E3B] hover:bg-[#04392B] text-white"
                 >
-                  <UserPlus className="mr-2 h-4 w-4" /> Connect
+                  <UserPlus className="mr-2 h-4 w-4" />
+                  Connect
                 </Button>
               </CardContent>
             </Card>
@@ -178,7 +192,6 @@ const SearchPage = () => {
               </DialogTitle>
             </DialogHeader>
 
-            
             <div className="flex justify-center mt-4">
               <Avatar className="h-40 w-40 border">
                 <AvatarImage src={selectedUser?.avatar_url} />
