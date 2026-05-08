@@ -8,6 +8,10 @@ import { Toaster } from "sonner";
 import SearchPage from './pages/SearchPage.jsx'
 import Requests from './pages/Requests.jsx'
 import Chat from './pages/Chat.jsx'
+import Features from "./pages/Feature.jsx";
+import HowItWorks from "./pages/HowItWorks";
+
+
 
 const App = () => {
   return (
@@ -21,6 +25,8 @@ const App = () => {
         <Route path='/search-people' element={<SearchPage />} />
         <Route path="/requests" element={<Requests />} />
         <Route path="/chat" element={<Chat />} />
+        <Route path="/features" element={<Features />} />
+        <Route path="/how-it-works" element={<HowItWorks />} />
       </Routes>
     </div>
   )

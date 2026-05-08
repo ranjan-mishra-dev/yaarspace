@@ -27,6 +27,7 @@ export const sendConnectionRequestApi = async (receiverId) => {
 export const getReceivedRequestsApi = async () => {
   const config = await authHeader();
   const res = await axios.get(`${API_URL}/received`, config);
+  // console.log("getReceivedRequestsApi2 ", config)
   return res.data;
 };
 
