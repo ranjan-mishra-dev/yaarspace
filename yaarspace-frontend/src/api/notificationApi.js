@@ -2,7 +2,7 @@
 import axios from "axios";
 import { supabase } from "@/services/supabaseClient";
 
-const API_URL = "http://localhost:5000/api/notifications";
+const API_URL = "https://yaarspace-backend.onrender.com/api/notifications";
 
 const authHeader = async () => {
   const { data } = await supabase.auth.getSession();

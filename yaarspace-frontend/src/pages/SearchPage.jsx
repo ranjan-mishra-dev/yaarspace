@@ -73,7 +73,7 @@ const SearchPage = () => {
     try {
       // Replace with your actual Node.js backend endpoint
 
-      const response = await axios.get("http://localhost:5000/api/search", {
+      const response = await axios.get("https://yaarspace-backend.onrender.com/api/search", {
         params: { q: searchTerm },
         headers: {
           Authorization: `Bearer ${session?.access_token}`,

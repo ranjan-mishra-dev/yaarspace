@@ -4,7 +4,7 @@ export const handleGoogleLogin = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: "http://localhost:5173",
+        redirectTo: "https://yaarspace-backend.onrender.com",
         queryParams: {
           access_type: 'offline',
           prompt: 'consent',

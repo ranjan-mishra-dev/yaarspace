@@ -1,7 +1,7 @@
 import axios from "axios";
 import { supabase } from "@/services/supabaseClient";
 
-const API_URL = "http://localhost:5000/api/connections";
+const API_URL = "https://yaarspace-backend.onrender.com/api/connections";
 
 const getToken = async () => {
   const { data } = await supabase.auth.getSession();
