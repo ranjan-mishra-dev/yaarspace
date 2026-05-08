@@ -33,7 +33,6 @@ const Navbar = () => {
     
         const loadProfile = async () => {
           const data = await fetchProfile(user);
-          console.log("user from navbar: ", user);
     
           if (data) {
             setUserProfilePicture(data?.avatar_url || "https://n2r5uux6k5.ucarecd.net/436cd9c5-c41d-4555-b415-3fb8b7daefff/-/preview/512x512/")
@@ -76,6 +75,7 @@ const Navbar = () => {
           <Link to="/how-it-works">How it works</Link>
           {user ? <Link to="/search-people">Search</Link> : " "}
           {user ? <Link to="/requests">Connections</Link> : " "}
+          {user ? <Link to="/chat">Chat</Link> : " "}
           {user ? <NavbarNotifications /> : " "}
           {/* {user ? <Chat /> : " "} */}
         </div>

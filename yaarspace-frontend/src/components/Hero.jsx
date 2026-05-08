@@ -20,7 +20,7 @@ const Hero = () => {
             ))}
           </div>
           <p className="text-[#475569] text-xl font-light tracking-[0.3em] uppercas mx-10">
-            The fastest way to find, connect, and collaborate with top-tier student developers for your next hackathon.
+            The fastest way to find, connect, and collaborate with top-tier student, developers for your next hackathon.
           </p>
           {!user ? 
           <Button className="mx-10 h-14 px-10 text-lg font-bold bg-[#064E3B] text-[#FDFCF0] hover:scale-105 transition-transform uppercase tracking-widest rounded-b-full">
