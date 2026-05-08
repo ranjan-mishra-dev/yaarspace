@@ -4,6 +4,10 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 
+body {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+}
 
 /* Customize the scrollbar for Chrome, Edge, and Safari (WebKit) */
 ::-webkit-scrollbar {
