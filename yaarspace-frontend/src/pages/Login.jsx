@@ -7,7 +7,7 @@ const Login = () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: "http://localhost:5173",
+        redirectTo: "https://yaarspace-frontend.onrender.com",
         queryParams: {
           access_type: 'offline',
           prompt: 'consent',
