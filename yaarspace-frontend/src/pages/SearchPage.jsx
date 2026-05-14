@@ -136,11 +136,11 @@ const SearchPage = () => {
                 <div className="flex items-center gap-4">
                   <Avatar className="h-20 w-20 border">
                     <AvatarImage src={user?.avatar_url} alt={user.full_name} loading="lazy" />
-                    <AvatarFallback>{user?.full_name}</AvatarFallback>
+                    <AvatarFallback>{user?.full_name?.charAt(0)?.toUpperCase()}</AvatarFallback>
                     {console.log(user.full_name)}
                   </Avatar>
                   <div>
-                    <h3 className="font-bold text-lg">{user.full_name?.charAt(0)?.toUpperCase()}</h3>
+                    <h3 className="font-bold text-lg">{user.full_name}</h3>
                     <p className="text-sm text-muted-foreground line-clamp-1">
                       {user.about_me}
                     </p>
