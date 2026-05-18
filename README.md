@@ -8,7 +8,9 @@ Your next big project is one partner away. Find them on YaarSpace.
 
 ### 🔗 Live Demo
 [**Live Link**](https://yaarspace-frontend.onrender.com/) <br>
-[**Video Link**](https://youtu.be/dgd1jEgiiIU)
+[**Video Link-**](https://youtu.be/dgd1jEgiiIU)
+<a href="https://youtu.be/dgd1jEgiiIU" target="_self">
+Click me</a>
 
 ## The Problem
 In most colleges, a massive **communication gap** exists between talented individuals. Students often face these hurdles:
