@@ -16,7 +16,8 @@ const App = () => {
   return (
     <div>
       <Navbar />
-      <Toaster position="top-right" richColors />
+      {/* <Toaster position="top-right" richColors /> */}
+      <Toaster position="top-right" richColors closeButton duration={2000} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
