@@ -7,8 +7,8 @@ Your next big project is one partner away. Find them on YaarSpace.
 ---
 
 ### 🔗 Live Demo
-[**Live Link [coming soon]**](YOUR_LIVE_LINK_HERE) <br>
-[**Video Link [coming soon]**](YOUR_LIVE_LINK_HERE)
+[**Live Link**](https://yaarspace-frontend.onrender.com/) <br>
+[**Video Link**](https://youtu.be/dgd1jEgiiIU)
 
 ## The Problem
 In most colleges, a massive **communication gap** exists between talented individuals. Students often face these hurdles:
@@ -33,9 +33,9 @@ In most colleges, a massive **communication gap** exists between talented indivi
 
 ### Key Features
 
-*   **Smart Profile Cards:** Instantly view a user's tech stack, college, and professional links (GitHub/LinkedIn) at a glance through beautifully designed cards.
+*   **Smart Profile Cards:** Instantly view a user's tech stack, college, and professional links (GitHub/LinkedIn).
 *   **Request-to-Chat Security:** Maintain your privacy with our **Connection Logic**. Strangers cannot message you until you explicitly accept their connection request.
-*   **Real-Time Messaging:** Once connected, brainstorm and coordinate ideas through our seamless, low-latency chat interface.
+*   **Real-Time Messaging:** Built a real-time chat system with features like double-tick read receipts, unread message count, last message preview with timestamp, message editing, and delete-for-everyone functionality.
 *   **In-App Video Calling:** Skip the "Let's meet on Zoom" hassle. Start high-quality video calls directly within the platform to discuss project blueprints.
 *   **Skill & Campus Filtering:** Find exactly who you need by filtering users by their specific technical expertise or university name.
 *   **Discovery Feed:** Explore a curated list of like-minded individuals nearby or across the country who are actively looking for collaborators.
