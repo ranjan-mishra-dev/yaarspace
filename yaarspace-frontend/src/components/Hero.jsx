@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from "@/components/ui/button";
 import { useAuth } from '@/context/AuthProvider';
 import { getGreeting } from '@/utils/getGreeting';
+import { handleGoogleLogin } from "@/services/handleGoogleLogin.js";
 
 
 const Hero = () => {
@@ -23,7 +24,9 @@ const Hero = () => {
             The fastest way to find, connect, and collaborate with top-tier student, developers for your next hackathon.
           </p>
           {!user ? 
-          <Button className="mx-10 h-14 px-10 text-lg font-bold bg-[#064E3B] text-[#FDFCF0] hover:scale-105 transition-transform uppercase tracking-widest rounded-b-full">
+          <Button
+          onClick={handleGoogleLogin}
+          className="mx-10 h-14 px-10 text-lg font-bold bg-[#064E3B] text-[#FDFCF0] hover:scale-105 transition-transform uppercase tracking-widest rounded-b-full">
             Create Your Profile
           </Button>
           :
