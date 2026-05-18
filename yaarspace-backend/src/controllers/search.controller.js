@@ -19,12 +19,13 @@ export const searchPeople = async (req, res) => {
 
       const currentUserId = req.user.id;
 
-    const { data: currentUser } = await supabaseAdmin
+    const { data: currentUser, error: userError } = await supabaseAdmin
       .from("profiles")
       .select("*")
       .eq("id", currentUserId)
-      .single();
+      .maybeSingle();
 
+      if (userError) throw userError;
       
       // 3. Fetch potential matches (limit raw fetch)
       const { data: users, error } = await supabaseAdmin
@@ -33,11 +34,12 @@ export const searchPeople = async (req, res) => {
       .limit(200); // important for performance
       
     if (error) throw error;
+    if (!users) return res.json({ users: [], total: 0, page: Number(page) });
 
     // 4. Score function
     const calculateScore = (user) => {
       let score = 0;
-
+      if (!user) return -1;
       if (user.id === currentUserId) return -1;
 
       // 1. Skill match
@@ -51,8 +53,10 @@ export const searchPeople = async (req, res) => {
       // 2. Profile completeness
       if (user.about_me) score += 5;
       if (user.avatar_url) score += 5;
-      if (user.interests?.length > 2) score += 5;
-
+      // if (user.interests?.length > 2) score += 5;
+      if (user.interests && Array.isArray(user.interests) && user.interests.length > 2) {
+        score += 5;
+      }
       // 3. Activity
       const days =
         (Date.now() - new Date(user.updated_at)) /
@@ -65,8 +69,8 @@ export const searchPeople = async (req, res) => {
         
         // 4. Similarity with current user
         const overlap = user.tech_stack?.filter(skill =>
-          currentUser.tech_stack?.includes(skill)
-        ).length;
+          currentUser?.tech_stack?.includes(skill)
+        )?.length || 0;
         
       score += overlap * 5;
 
@@ -102,7 +106,7 @@ export const searchPeople = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+    console.error("Search Error Trace:", error);
+    res.status(500).json({ message: "Server error during search" });
   }
 };
